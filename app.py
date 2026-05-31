@@ -1,6 +1,6 @@
 from flask import Flask,render_template,request
 import os
-from ocr.extractor import extract_text
+from ocr.azure_ocr import extract_text
 from analyzer.report_analyzer import (
     extract_parameters,
     analyzer_parameters,

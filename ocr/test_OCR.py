@@ -1,4 +1,4 @@
-from extractor import extract_text
+from  extractor import  extract_text
 
 text = extract_text("report.png")
 
