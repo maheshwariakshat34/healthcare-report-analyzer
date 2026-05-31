@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Result</title>
+</head>
+<body>
+
+<h1>Healthcare Report Analysis</h1>
+
+<table border="1">
+
+<tr>
+    <th>Parameter</th>
+    <th>Value</th>
+    <th>Status</th>
+</tr>
+
+{% for item in results %}
+
+<tr>
+    <td>{{ item.parameter }}</td>
+    <td>{{ item.value }}</td>
+    <td>{{ item.status }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+<h2>Health Summary</h2>
+
+<p>{{ summary }}</p>
+
+</body>
+</html>

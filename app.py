@@ -1,5 +1,11 @@
 from flask import Flask,render_template,request
 import os
+from ocr.extractor import extract_text
+from analyzer.report_analyzer import (
+    extract_parameters,
+    analyzer_parameters,
+    generate_summary
+)
 app=Flask(__name__)
 UPLOAD_FOLDER=('uploads')
 app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
@@ -18,8 +24,19 @@ def upload():
         )
 
         file.save(filepath)
+        text = extract_text(filepath)
 
-        return f"File Uploaded Successfully: {file.filename}"
+        data = extract_parameters(text)
+
+        results = analyzer_parameters(data)
+
+        summary = generate_summary(results)
+
+        return render_template(
+            "result.html",
+            results=results,
+            summary=summary
+        )
 
     return "No File Uploaded"
 
