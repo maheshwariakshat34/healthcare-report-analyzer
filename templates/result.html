@@ -12,15 +12,17 @@
 <tr>
     <th>Parameter</th>
     <th>Value</th>
+    <th>Unit</th>
     <th>Status</th>
 </tr>
 
 {% for item in results %}
 
 <tr>
-    <td>{{ item.parameter }}</td>
-    <td>{{ item.value }}</td>
-    <td>{{ item.status }}</td>
+    <td>{{ item["parameter"] }}</td>
+    <td>{{ item["value"] }}</td>
+    <td>{{ item["unit"] }}</td>
+    <td>{{ item["status"] }}</td>
 </tr>
 
 {% endfor %}
