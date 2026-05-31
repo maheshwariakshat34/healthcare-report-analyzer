@@ -5,28 +5,39 @@ def extract_parameters(text):
 
     data = {}
 
-    hb = re.search(r'Hemoglobin.*?(\d+\.\d+)', text)
+    hb = re.search(r'Hemoglobin.*?(\d+\.\d+)', text,re.DOTALL)
 
     if hb:
-        data["Hemoglobin"] = float(hb.group(1))
+        data["Hemoglobin"] = {
+            "value": float(hb.group(1)),
+            "unit": "g/dL"
+        }
 
-    wbc = re.search(r'Total WBC Count.*?(\d+\.\d+)', text)
+    wbc = re.search(r'Total WBC Count.*?(\d+\.\d+)', text,re.DOTALL)
 
     if wbc:
-        data["WBC"] = float(wbc.group(1))
+        data["WBC"] = {
+            "value":float(wbc.group(1)),
+            "unit": "thou/cumm"
+        }
 
-    platelets = re.search(r'Platelet Count.*?(\d+\.\d+)', text)
+    platelets = re.search(r'Platelet Count.*?(\d+\.\d+)', text,re.DOTALL)
 
     if platelets:
-        data["Platelets"] = float(platelets.group(1))
+        data["Platelets"] = {
+            "value":float(platelets.group(1)),
+            "unit":"lakh/cumm"
+        }
 
     return data
-
 def analyzer_parameters(data):
 
     results = []
 
-    for parameter, value in data.items():
+    for parameter, details in data.items():
+
+        value = details["value"]
+        unit = details["unit"]
 
         low = NORMAL_RANGES[parameter]["low"]
         high = NORMAL_RANGES[parameter]["high"]
@@ -43,10 +54,12 @@ def analyzer_parameters(data):
         results.append({
             "parameter": parameter,
             "value": value,
+            "unit": unit,
             "status": status
         })
 
     return results
+
 def generate_summary(results):
 
     abnormal = []
@@ -62,3 +75,4 @@ def generate_summary(results):
         return "All analyzed parameters are within normal limits."
 
     return ", ".join(abnormal)
+
